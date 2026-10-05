@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Marking.Client/Marking.Client.csproj" />
+    <Project Path="src/Marking.Protocol/Marking.Protocol.csproj" />
+    <Project Path="src/Marking.Server/Marking.Server.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Marking.Tests/Marking.Tests.csproj" />
+  </Folder>
+</Solution>
