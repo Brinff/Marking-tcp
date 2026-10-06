@@ -55,7 +55,7 @@ public static class MessageFramer
 
         while (total < buffer.Length)
         {
-            int n = await stream.ReadAsync(buffer[..total], ct).ConfigureAwait(false);
+            int n = await stream.ReadAsync(buffer[total..], ct).ConfigureAwait(false);
 
             if (n == 0)
             {
