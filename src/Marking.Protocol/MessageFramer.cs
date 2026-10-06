@@ -7,14 +7,14 @@ public static class MessageFramer
 {
     private static readonly UTF8Encoding StrictUtf8 = new(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
-    public static async Task WriteMessageAsync(this Stream stream, string message, CancellationToken ct = default)
+    public static async Task WriteMessageAsync(Stream stream, string message, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(stream);
         ArgumentNullException.ThrowIfNull(message);
         
         int payloadLength = StrictUtf8.GetByteCount(message);
         if (payloadLength < 1 || payloadLength > ProtocolConstants.MaxMessageLength)
-            throw new ArgumentOutOfRangeException($"Длина сообщения должна быть от 1 до {ProtocolConstants.MaxMessageLength} байт, получено {payloadLength}.", nameof(message));
+            throw new ArgumentOutOfRangeException(nameof(message), payloadLength, $"Длина сообщения должна быть от 1 до {ProtocolConstants.MaxMessageLength} байт, получено {payloadLength}.");
 
         var frame = new byte[ProtocolConstants.HeaderSize + payloadLength];
         BinaryPrimitives.WriteInt32BigEndian(frame, payloadLength);
@@ -23,7 +23,7 @@ public static class MessageFramer
         await stream.WriteAsync(frame, ct).ConfigureAwait(false);
     }
 
-    public static async Task<String?> ReadMessageAsync(this Stream stream, CancellationToken ct = default)
+    public static async Task<string?> ReadMessageAsync(Stream stream, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(stream);
 
